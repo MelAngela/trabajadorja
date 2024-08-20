@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscar Trabajador por RUT</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* Para alinear el contenido en columna */
+        }
+        h1 {
+            text-align: center;
+            color: #333; /* Color del texto del título */
+            margin-bottom: 20px; /* Espacio entre el título y el formulario */
+        }
+        form {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra del formulario */
+        }
+        label, input[type="text"], input[type="submit"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #007bff; /* Color de fondo del botón */
+            color: white; /* Color del texto del botón */
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease; /* Transición suave al hacer hover */
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Cambio de color al pasar el mouse por encima */
+        }
+        a.inicio-btn {
+            display: block;
+            width: 100px;
+            padding: 10px;
+            margin-top: 20px; /* Espacio desde arriba */
+            text-align: center;
+            text-decoration: none;
+            color: white; /* Color del texto del botón */
+            background-color: #007bff; /* Color de fondo del botón */
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+        }
+        a.inicio-btn:hover {
+            background-color: #0056b3; /* Cambio de color al pasar el mouse por encima */
+        }
+    </style>
+</head>
+<body>
+    <h1>Buscar Trabajador por RUT</h1>
+    <form method="post" action="{% url 'buscar_trabajador' %}">
+        {% csrf_token %}
+        <label for="rut">Ingrese el RUT del trabajador:</label><br>
+        <input type="text"  placeholder="Sin puntos ni guión"  id="rut" name="rut"><br>
+
+        <input type="submit" value="Buscar">
+    </form>
+
+    <a href="{% url 'index' %}" class="inicio-btn">Inicio</a>
+</body>
+</html>

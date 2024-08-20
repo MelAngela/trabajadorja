@@ -1,0 +1,21 @@
+<!-- base.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel Principal</title>
+</head>
+<body>
+    <h1>Panel Principal</h1>
+    <ul>
+        <li><a href="{% url 'listar_trabajadores' %}">Listar Trabajadores</a></li>
+        <li><a href="{% url 'crear_trabajador' %}">Crear Trabajador</a></li>
+        <!-- Agrega más enlaces según tus vistas y URLs -->
+    </ul>
+
+    <hr>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

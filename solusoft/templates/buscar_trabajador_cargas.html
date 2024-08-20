@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle de Trabajador y Cargas</title>
+    <!-- Tu estilo CSS -->
+    <style>
+    /* Estilos para el contenedor central */
+    .container {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+        }
+
+        /* Estilos para la lista de cargas */
+        .carga {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        /* Estilos para el nombre de la carga */
+        .nombre-carga {
+            flex: 1;
+            text-align: left;
+        }
+
+        /* Estilos para los botones */
+        .btn {
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-editar {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            margin: 0 10px;
+            background-color: #dc3545;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            color: white;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalle de Trabajador y Cargas</h1>
+        <form id="searchButton" method="post" action="{% url 'buscar_trabajador_cargas' %}">
+            {% csrf_token %}
+            <label for="rut">Ingrese el RUT del trabajador:</label>
+            <input type="text" id="rut" name="rut">
+            <input type="submit" value="Buscar" onclick="ocultarSeccion()">
+        </form>
+
+        {% if trabajador %}
+            <h2>Información del Trabajador</h2>
+            <p>RUT: {{ trabajador.rut }}</p>
+            <!-- Mostrar más detalles del trabajador si es necesario -->
+
+            <h2>Cargas</h2>
+            {% if cargas %}
+                <ul>
+                    {% for carga in cargas %}
+                        <li class="carga">
+                            <div class="nombre-carga">
+                                {{ carga.apellido_paterno }} {{ carga.apellido_materno }}, {{ carga.nombre }}, {{carga.get_parentesco_display}}
+                            </div>
+                            <a href="{% url 'editar_carga' trabajador_id=trabajador.id carga_id=carga.id %}" class="btn btn-editar">Editar</a>
+                            <form method="post" action="{% url 'eliminar_carga' trabajador_id=carga.trabajador.id carga_id=carga.id %}" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-eliminar">Eliminar</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay cargas asociadas a este trabajador.</p>
+            {% endif %}
+        {% endif %}
+        <a href="{% url 'index' %}" class="btn inicio-btn">Inicio</a>
+    </div>
+</body>
+</html>
+
+

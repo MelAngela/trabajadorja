@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle del Trabajador</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+        }
+
+        .content {
+            width: 50%;
+            margin: 0 25%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .btn-editar,
+        .btn-eliminar,
+        .btn-agregar {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .btn-editar {
+            background-color: blue;
+            color: white;
+        }
+
+        .btn-eliminar {
+            background-color: red;
+            color: white;
+        }
+
+        .btn-agregar {
+            background-color: green;
+            color: white;
+        }
+                th[colspan="2"] {
+            text-align: center;
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalle del Trabajador</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+        }
+
+        .content {
+            width: 50%;
+            margin: 0 auto;
+            text-align: center; /* Centrar el contenido */
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Sombra pronunciada */
+            
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra para la tabla */
+            background-color: #9e80c4d9;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para celdas */
+        }
+
+        th {
+            background-color: #9e80c4d9;
+        }
+
+        .btn-editar,
+        .btn-eliminar,
+        .btn-agregar,
+        .btn-inicio {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-top: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Transiciones suaves */
+        }
+
+        .btn-editar {
+            background-color: #007bff; /* Color botón editar */
+            color: white;
+        }
+
+        .btn-eliminar {
+            background-color: #dc3545; /* Color botón eliminar */
+            color: white;
+        }
+
+        .btn-agregar {
+            background-color: #28a745; /* Color botón agregar */
+            color: white;
+        }
+
+        .btn-inicio {
+            background-color: rgb(45, 121, 188); /* Color botón inicio */
+            color: rgb(255, 255, 255);
+            margin-top: 20px;
+        }
+
+        .btn-editar:hover,
+        .btn-eliminar:hover,
+        .btn-agregar:hover,
+        .btn-inicio:hover {
+            transform: translateY(0px); /* Efecto de desplazamiento hacia abajo al pasar el mouse */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="content">
+        <table>
+            <tr>
+                <th colspan="2"><h1>Detalle del Trabajador</h1></th>
+            </tr>
+            <tr>
+                <th>RUT</th>
+                <td>{{ trabajador.rut }}</td>
+            </tr>
+            <tr>
+                <th>Apellido Paterno</th>
+                <td>{{ trabajador.apellido_paterno }}</td>
+            </tr>
+            <tr>
+                <th>Apellido Materno</th>
+                <td>{{ trabajador.apellido_materno }}</td>
+            </tr>
+            <tr>
+                <th>Nombres</th>
+                <td>{{ trabajador.nombres }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de Nacimiento</th>
+                <td>{{ trabajador.fecha_nacimiento }}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ trabajador.get_sexo_display }}</td>
+            </tr>
+            <tr>
+                <th>Estado Civil</th>
+                <td>{{ trabajador.get_estado_civil_display }}</td>
+            </tr>
+        </table>
+
+        <a href="{% url 'editar_trabajador' trabajador.id %}" class="btn-editar">Editar</a>
+        <form action="{% url 'eliminar_trabajador' trabajador.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+        </form>
+
+        <h2>Cargas</h2>
+        <ul>
+            {% for carga in trabajador.cargas_set.all %}
+                <li>{{ carga.nombre }} {{ carga.apellido_paterno}} - {{ carga.get_parentesco_display }}</li>
+            {% empty %}
+                <li>No hay cargas asociadas a este trabajador.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'agregar_carga' trabajador.id %}" class="btn-agregar">Agregar Carga</a>
+        <br><br>
+        <a href="{% url 'index' %}" class="btn-inicio">Inicio</a>
+    </div>
+</body>
+</html>

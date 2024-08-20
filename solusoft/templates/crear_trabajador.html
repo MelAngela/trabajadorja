@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Trabajador</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-family: 'Mightype', cursive;
+            color: #004d99; /* Azul oscuro para el encabezado */
+        }
+
+        body {
+            font-family: 'Mightype', cursive;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* Blanco para el formulario */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #004d99; /* Azul oscuro para las etiquetas */
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: #e6f2ff; /* Celeste más claro para los inputs */
+        }
+
+        input[type="submit"] {
+            background-color: #004d99; /* Azul oscuro para el botón */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #003366; /* Azul más oscuro al pasar el mouse */
+        }
+        .navbar {
+            background-color: #6e10e8; /* Color celeste */
+        }
+
+        /* Modificaciones para el color del texto */
+        .navbar-light .navbar-nav .nav-link,
+        .navbar-light .navbar-nav .nav-link:hover,
+        .dropdown-menu .dropdown-item,
+        .dropdown-menu .dropdown-item:hover,
+        .cargas-dropdown .dropdown-item,
+        .cargas-dropdown .dropdown-item:hover,
+        .trabajador-dropdown .dropdown-item,
+        .trabajador-dropdown .dropdown-item:hover {
+            color: #1038e8; /* Cambiar el color del texto a blanco */
+        }
+        
+
+        /* Otros estilos según sea necesario */
+    </style>
+    <!-- Agrega tus enlaces a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Crear Nuevo Trabajador</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="rut">RUT:</label><br>
+        <input type="text" placeholder="Sin puntos ni guion"id="rut" name="rut"><br>
+
+        <label for="apellido_paterno">Apellido Paterno:</label><br>
+        <input type="text" id="apellido_paterno" name="apellido_paterno"><br>
+
+        <label for="apellido_materno">Apellido Materno:</label><br>
+        <input type="text" id="apellido_materno" name="apellido_materno"><br>
+
+        <label for="nombres">Nombres:</label><br>
+        <input type="text" id="nombres" name="nombres"><br>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"><br>
+
+        <label for="sexo">Sexo:</label><br>
+        <select id="sexo" name="sexo">
+            <option value="F">Femenino</option>
+            <option value="M">Masculino</option>
+        </select><br>
+
+        <label for="estado_civil">Estado Civil:</label><br>
+        <select id="estado_civil" name="estado_civil">
+            <option value="S">Soltero/a</option>
+            <option value="C">Casado/a</option>
+            <option value="V">Viudo/a</option>
+            <option value="D">Divorciado/a</option>
+        </select><br>
+
+        <input type="submit" value="Guardar">
+        <a href="{% url 'index' %}" class="inicio-btn">Inicio</a>
+        
+        
+
+    </form>
+</body>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">ColaboradorPro</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="trabajadorDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Trabajadores
+                </a>
+                <div class="dropdown-menu trabajador-dropdown" aria-labelledby="trabajadorDropdown">
+                    <a class="dropdown-item" href="{% url 'listar_trabajadores' %}">Listado de Trabajadores</a>
+                    <a class="dropdown-item" href="{% url 'crear_trabajador' %}">Ingresar nuevo trabajador</a>
+                    <a class="dropdown-item" href="{% url 'buscar_trabajador' %}">buscar Trabajadores</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown cargas-dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="cargasDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Cargas Familiares
+                </a>
+                <div class="dropdown-menu" aria-labelledby="cargasDropdown">
+                    <a class="dropdown-item" href="{% url 'listar_cargas' %}">Listado de Cargas</a>
+                    <a class="dropdown-item" href="{% url 'buscar_trabajador_cargas' %}">Buscar carga familiar</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Trabajadores y Cargas</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo con gradiente de blanco a celeste */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; /* Tipo de fuente */
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            color: #333; /* Color del texto del título */
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra en celdas */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1); /* Sombra en filas */
+        }
+        a {
+            display: block;
+            width: 100px;
+            padding: 10px;
+            margin: 20px auto;
+            text-align: center;
+            text-decoration: none;
+            color: black; /* Color del texto del botón */
+            background-color: white; /* Color de fondo del botón */
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #0056b3; /* Cambio de color al pasar el mouse por encima */
+        }
+        .acciones form {
+            /* Estilo para los formularios dentro de la clase "acciones" */
+            display: inline-block; /* Para mostrar los formularios en línea */
+            margin-right: 10px; /* Espacio entre los formularios */
+        }
+
+        .acciones button, .acciones a {
+            /* Estilo para los botones y enlaces dentro de la clase "acciones" */
+            display: inline-block; /* Para mostrar los botones en línea */
+            width: 90px; /* Modifiqué el ancho de los botones */
+            margin: 5px 0; /* Ajuste de margen */
+            padding: 5px; /* Modifiqué el padding */
+            text-align: center;
+            text-decoration: none;
+            color: white; /* Color del texto del botón */
+            background-color: #007bff; /* Color de fondo del botón */
+            border-radius: 5px;
+            border: none; /* Elimina el borde del botón */
+            transition: all 0.3s ease; /* Transición suave */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra en botones */
+            font-size: 12px; /* Tamaño de la fuente más pequeño */
+        }
+
+        .acciones button:hover, .acciones a:hover {
+            background-color: #0056b3; /* Cambio de color al pasar el mouse por encima */
+            transform: translateY(-2px); /* Mueve ligeramente hacia arriba al pasar el mouse */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Trabajadores y Cargas</h1>
+
+        {% if cargas_trabajadores %}
+            {% for trabajador, cargas in cargas_trabajadores.items %}
+                <h3>{{ trabajador }}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Nombre</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Parentesco</th>
+                            <th>Acciones</th>
+                            <!-- Agrega más columnas según las cargas que deseas mostrar -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for carga in cargas %}
+                            <tr>
+                                <td>{{ carga.apellido_paterno }}</td>
+                                <td>{{ carga.apellido_materno }}</td>
+                                <td>{{ carga.nombre }}</td>
+                                <td>{{ carga.fecha_nacimiento }}</td>
+                                <td>{{ carga.get_parentesco_display }}</td>
+
+                                <td class="acciones">
+                                    <form action="{% url 'editar_carga' trabajador.id carga.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-comun">Actualizar</button>
+                                    </form>
+                                    <form action="{% url 'eliminar_carga' trabajador.id carga.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-comun">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6">No hay cargas para este trabajador.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% empty %}
+                <p>No hay trabajadores registrados.</p>
+            {% endfor %}
+        {% else %}
+            <p>No hay datos para mostrar.</p>
+        {% endif %}
+        <a href="{% url 'index' %}">Inicio</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listado de Trabajadores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8); /* Fondo degradado */
+        }
+
+        h1 {
+            background-color: #6e10e8; /* Color de fondo para el encabezado */
+            color: white; /* Color del texto */
+            padding: 10px 0;
+            width: 80%;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px 0 #6e10e8;
+            background: linear-gradient(to bottom right, #f4f3ed, #6e10e8);  /* Color de fondo para el listado */
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #6e10e8;
+        }
+
+        .acciones {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-detalles,
+        .btn-editar,
+        .btn-eliminar,
+        .inicio-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-detalles:hover {
+            background-color: #4CAF50;
+            text-decoration: none;
+            color:blue
+        }
+
+        .btn-editar:hover {
+            background-color: #FFC107;
+            text-decoration: none;
+            color:blue
+        }
+
+        .btn-eliminar:hover {
+            background-color: #f44336;
+            text-decoration: none;
+            color:blue
+        }
+
+        .inicio-btn {
+            background-color: #6e10e8;
+            color: white;
+            text-decoration: none;
+
+        }
+
+        .inicio-btn:hover {
+            text-decoration: underline;
+            transform: translateY(3px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Trabajadores</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>RUT</th>
+                <th>Nombres</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Sexo</th>
+                <th>Estado Civil</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trabajador in trabajadores %}
+            <tr>
+                <td>{{ trabajador.rut }}</td>
+                <td>{{ trabajador.nombres }}</td>
+                <td>{{ trabajador.apellido_paterno }}</td>
+                <td>{{ trabajador.apellido_materno }}</td>
+                <td>{{ trabajador.fecha_nacimiento|date:"d \d\e F \d\e Y" }}</td>
+                <td>{{ trabajador.get_sexo_display }}</td>
+                <td>{{ trabajador.get_estado_civil_display }}</td>
+                <td class="acciones">
+                    <a href="{% url 'detalle_trabajador' trabajador.id %}" class="btn-detalles">Detalles</a>
+                    <a href="{% url 'editar_trabajador' trabajador.id %}" class="btn-editar">Editar</a>
+                    <form action="{% url 'eliminar_trabajador' trabajador.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-eliminar">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <!-- Celda vacía para mostrar que no hay trabajadores -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'index' %}" class="inicio-btn">Inicio</a>
+    <a href="{% url 'crear_trabajador' %}"class ='Crear otro trababador'>Ingresar nuevo trabajador</a>
+</body>
+</html>
